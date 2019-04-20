@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+    <title>FarmSTND-Browse</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+  </header>
+  <section>
+    <input type="text" name="" value="">
+    <ul>
+      <li>Fruit</li>
+      <li>Veggie</li>
+    </ul>
+    <section id="buyerBrowse">
+      <ul class="produce">
+        <% for(var i=0; i<produce.length; i++) {%>
+          <% if( user.local.email ){ %>
+          <li class="message">
+            <span><%= produce[i].type %></span>
+            <span><%= produce[i].quantity %></span>
+            <span><%= produce[i].email %></span>
+            <input placeholder="Offer" type="text" name="offer" value="">
+            <span><%= produce[i].suggestedPrice %></span>
+
+          </li>
+          <% } %>
+        <% } %>
+      </ul>
+
+    </section>
+  </section>
+
+
+
+
+
+<script src="main.js"></script>
+
+</body>
+</html>

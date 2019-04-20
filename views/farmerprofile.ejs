@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <title>FarmSTND</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="farmer.css">
+    <link href="https://fonts.googleapis.com/css?family=Armata|Concert+One|Fredoka+One" rel="stylesheet">
+
+  </head>
+  <body>
+    <header>
+      <section class="topPiece">
+        <span> <img src="imgs/grow.png" alt=""> </span>
+
+      <section class="secondPiece">
+
+        <h1>FarmSTND</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+      </section>
+    </header>
+
+    <section>
+
+
+
+      <span><%= user.local.email %></span>
+      <form class="pickOpt" action="/farmerprofile" method="post">
+        <label for=""><h2>List New Items</h2>
+          <select class="" name="proSelect">
+            <option value="Cassava">Cassava</option>
+            <option value="Yam">Yam</option>
+            <option value="Ginger">Ginger</option>
+            <option value="Kolanut">Kolanut</option>
+            <option value="Groundnut">Groundnut</option>
+            <option value="Banana">Banana</option>
+            <option value="Mango">Mango</option>
+            <option value="Melon">Melon</option>
+            <option value="Corn">Corn</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Avocado">Avocado</option>
+            <option value="Carrot">Carrot</option>
+            <option value="Okra">Okra</option>
+            <option value="Pepper">Pepper</option>
+          </select>
+
+          <input placeholder="suggested price" type="text" name="price" value="">
+          <input placeholder="Qty" type="text" name="qty" value="">
+          <input hidden type="text" name="email" value="<%= user.local.email %>">
+
+
+        </label>
+        <button type="submit" name="button">Submit</button>
+
+      </form>
+    </section>
+
+    <section class="itemsList">
+      <h3>items listed</h3>
+      <ul class="messages">
+        <% console.log(produce) %>
+      <% for(var i=0; i<produce.length; i++) {%>
+        <% if( user.local.email ){ %>
+        <li class="message">
+          <span><%= produce[i].type %></span>
+
+          <span><%= produce[i].suggestedPrice %></span>
+          <span><%= produce[i].quantity %></span>
+        </li>
+        <% } %>
+      <% } %>
+      </ul>
+
+
+    </section>
+    <section class="bidsList">
+      <h3>bids listed</h3>
+      <ul class="messages">
+        <% console.log(produce) %>
+      <% for(var i=0; i<bids.length; i++) {%>
+        <li id="<%= bids[i]._id %>" class="message">
+          <span><%= bids[i].offerAmt %></span>
+          
+          <% if(bids[i].status === "Accept"){ %>
+            <span>Accepted</span>
+
+            <% }else if(bids[i].status === "Reject"){%>
+            <span>Rejected</span>
+
+            <% }else if(bids[i].status === "Counter"){%>
+            <span>Countered</span>
+
+            <% }else{ %>
+
+          <button class="setStatus" type="button" name="button">Accept</button>
+          <button class="setStatus" type="button" name="button">Reject</button>
+          <button class="setStatus" type="button "name="button">Counter</button>
+          <input type="text" name="" value="">
+
+        <% } %>
+        </li>
+      <% } %>
+      </ul>
+
+
+    </section>
+
+    <script src="farmer.js"></script>
+
+  </body>
+</html>

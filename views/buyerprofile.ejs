@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+  <title>FarmSTND</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Concert+One|Fredoka+One" rel="stylesheet">
+  <link rel="stylesheet" href="buyer.css">
+</head>
+<body>
+  <header>
+    <section class="topPiece">
+      <span> <img src="imgs/grow.png" alt=""> </span>
+      <!-- <span>Fresher Produce. One Click at a TIME.</span> -->
+    </section>
+    <section class="secondPiece">
+
+      <h1>FarmSTND</h1>
+      <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </section>
+  </header>
+
+  <div class="container">
+
+
+
+    <div class="row">
+
+      <!-- LOCAL INFORMATION -->
+      <div class="col-sm-6">
+
+      </div>
+
+
+      <section>
+
+        <section>
+          <img src="" alt="">
+        </section>
+        <% console.log(produce) %>
+        <form class="" action="/buyerprofile" method="post">
+          <select id="type" class="" name="proOption">
+
+
+
+            <<option value="">Select</option>
+            <option value="Cassava">Cassava</option>
+            <option value="Yam">Yam</option>
+            <option value="Ginger">Ginger</option>
+            <option value="Kolanut">Kolanut</option>
+            <option value="Groundnut">Groundnut</option>
+            <option value="Banana">Banana</option>
+            <option value="Mango">Mango</option>
+            <option value="Melon">Melon</option>
+            <option value="Corn">Corn</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Avocado">Avocado</option>
+            <option value="Carrot">Carrot</option>
+            <option value="Okra">Okra</option>
+            <option value="Pepper">Pepper</option>
+
+
+
+          </select>
+
+
+        </form>
+        <section class="farmerListing">
+          <h3>Farmer Listing</h3>
+
+          <ul class="messages">
+            <%
+            var selected = produce.filter(el => {
+              return el.type === type
+            })
+            %>
+            <% for(var i=0; i< selected.length; i++) {%>
+
+
+              <li>
+                <form class="" action="submitBid" method="post">
+                  <span><%= selected[i].type %></span>
+                  <span><%= selected[i].quantity %></span>
+                  <span><%= selected[i].email %></span>
+                  <input placeholder="Offer" type="text" name="offerAmt" value="">
+                  <input type="hidden" name="produceId" value="<%= selected[i]._id %>" >
+                  <input type="hidden" name="farmerEmail" value="<%= selected[i].email %>">
+                  <span><%= selected[i].suggestedPrice %></span>
+                  <input type="submit" name="" value="Bid">
+                </form>
+
+              </li>
+
+              <% } %>
+            </ul>
+          </section>
+
+
+
+
+        </section>
+        <% if(bids.length > 0) { %>
+          <section class="bidHolder">
+            <ul>
+              <% for(var i=0; i< bids.length; i++) {%>
+                <%
+                var item = produce.find(el => {
+                  console.log(el)
+                  return el._id + "" === bids[i].produceId
+                })
+                  console.log(item)
+                %>
+                <li class="bids">
+
+                  <span>Offer: <%= bids[i].offerAmt %></span>
+                  <span>Farmer: <%= bids[i].farmerEmail %></span>
+                  <% if(bids[i].status === "Accept" || bids[i].status=== "Counter") { %>
+                    <span>Status: <%= bids[i].status %></span>
+                    <button data-bidId="<%= bids[i]._id %>" data-farmeremail="<%= bids[i].farmerEmail %>" data-offer="<%= bids[i].offerAmt %>" data-status="<%= bids[i].status %>" class="claimIt" type="button" name="button">Claim</button>
+                    <% } else { %>
+                      <span>Status: Pending</span>
+                      <% } %>
+                    </li>
+
+                    <% } %>
+                  </ul>
+                </section>
+                <% } %>
+
+                <script src="main.js"></script>
+
+              </body>
+              </html>

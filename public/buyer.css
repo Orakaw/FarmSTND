@@ -1,0 +1,57 @@
+header{
+  width: 100%;
+  height: 83px;
+  /* border: 2px solid green; */
+  text-align: center;
+}
+.topPiece{
+  /* border: 2px solid black; */
+  width: 100%;
+  height: 26px;
+  background: palegoldenrod;
+}
+.topPiece img{
+float: left;
+width: 44px;
+height: 29px;
+margin-top: -10px;
+}
+.topPiece span:first-of-type{
+  float: left;
+  color: white;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-left: 6px;
+  font-family: 'Armata', sans-serif;
+}
+.topPiece span:nth-of-type(2){
+  color: white;
+  font-family: 'Concert One', cursive;
+  margin-right: 16%;
+  font-size: 19px;
+}
+.secondPiece{
+  width: 100%;
+  height: 56px;
+  background-color: olivedrab;
+}
+h1{
+  font-family: 'Fredoka One', cursive;
+  font-size: 63px;
+  color: white;
+  margin: 0;
+  width: 57%;
+  float: left;
+  margin-top: -2px;
+  margin-left: 15%;
+  height: 55px;
+  /* border: 2px solid black; */
+}
+
+
+.farmerListing{
+  border: 2px solid black;
+}
+.bidHolder{
+  border: 2px solid black
+}
