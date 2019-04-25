@@ -1,3 +1,6 @@
+body{
+  background-color: antiquewhite;
+}
 header{
   width: 100%;
   height: 83px;
@@ -32,26 +35,133 @@ margin-top: -10px;
 }
 .secondPiece{
   width: 100%;
-  height: 56px;
-  background-color: olivedrab;
+  height: 78px;
+  /* background-color: olivedrab; */
+  background-image: url(imgs/vegetable3.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: .6
+}
+.btn-sm{
+  margin-top: 23px;
+  background-color: palegoldenrod;
+  font-family: 'Concert One', cursive;
 }
 h1{
   font-family: 'Fredoka One', cursive;
-  font-size: 63px;
-  color: white;
-  margin: 0;
+  font-size: 69px;
   width: 57%;
   float: left;
-  margin-top: -2px;
   margin-left: 15%;
   height: 55px;
+  font-weight: bolder;
+  margin-top: 4px
   /* border: 2px solid black; */
+}
+h2{
+  font-family: 'Poppins', sans-serif;
+  margin-left: 28%;
+  margin-top: 33px;
 }
 
 
 .farmerListing{
-  border: 2px solid black;
+  /* border: 2px solid black; */
+  float: left;
+  margin-left: 90px;
+  font-family: 'Montserrat', sans-serif;
+  width: 92%;
+  margin-top: 30px
+
+}
+h3{
+  font-family: 'Poppins', sans-serif;
 }
 .bidHolder{
-  border: 2px solid black
+  /* border: 2px solid black; */
+  float: left;
+  margin-left: 90px;
+  margin-top: 62px;
+  font-family: 'Montserrat', sans-serif;
+  width: 92%
+
+}
+.selection{
+  float: left;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+}
+.produceImg{
+  height: 275px;
+  width: 75%;
+  /* border: 2px solid black; */
+  background: goldenrod;
+  box-shadow: -7px 3px 17px 0 #171616;
+  /* border-radius: 50%; */
+  display: flex;
+  justify-content: center;
+  margin-left: 6%;
+  margin-top: 83px;
+  opacity: .7
+
+}
+.produceImg img{
+  height: 300px;
+  width: 98%;
+}
+.selectPlusImg{
+  width: 106%;
+  /* border: 2px solid black; */
+  float: left;
+  height: 381px;
+  margin-left: 4%;
+  margin-top: 30px;
+
+}
+ul{
+  list-style: none;
+    /* background-image: url(imgs/Vegetables.png); */
+}
+.bidBackground{
+  /* background-image: url(imgs/Vegetables.png); */
+  opacity: 1;
+}
+.selectPlusImg span{
+  margin-left: 6%;
+  font-family: 'Montserrat', sans-serif;
+  border-bottom: 2px solid goldenrod;
+}
+.selector{
+  margin-left: 6%;
+  margin-top: 23px
+}
+.farmerListing p{
+  border-bottom: 2px solid goldenrod;
+  width: 58%;
+}
+.bidHolder p{
+  width: 57%;
+  border-bottom: 2px solid goldenrod;
+
+}
+.rightSide{
+  background-color: white;
+  border: 2px solid black;
+  float: left;
+  width: 56%;
+  border-radius: 19px;
+  height: 471px;
+  margin-left: 2%;
+  box-shadow: -7px 3px 17px 0 #171616;
+}
+.leftSide{
+  background-color: white;
+  border: 2px solid black;
+  float: left;
+  width: 38%;
+  border-radius: 19px;
+  height: 471px;
+  margin-left: 2%;
+  box-shadow: -7px 3px 17px 0 #171616;
 }

@@ -4,13 +4,24 @@
     <title>FarmSTND</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="farmer.css">
+    <link rel="stylesheet" href="thanks.css">
     <link href="https://fonts.googleapis.com/css?family=Armata|Concert+One|Fredoka+One" rel="stylesheet">
 
   </head>
   <body>
+    <header>
+      <section class="topPiece">
+        <span> <img src="imgs/grow.png" alt=""> </span>
+      </section>
+      <section class="secondPiece">
+
+        <h1>FarmSTND</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+      </section>
+    </header>
     <span>Thank you for your purchase!</span>
     <span>Address: </span>
     <span>From: <%= farmerEmail %></span>
+    <a href="/profile"><button type="button" name="button">Back To Profile</button> </a>
   </body>
 </html>

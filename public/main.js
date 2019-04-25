@@ -1,10 +1,10 @@
 
-var trash = document.getElementsByClassName("claimIt");
+var claimed = document.getElementsByClassName("claimIt");
 
 document.getElementById("type").addEventListener("change", function(){
 
   let listItems = document.getElementById("type").value
-  window.location.href = "/buyerprofile?type=" + listItems
+  window.location.href = "profile?type=" + listItems
     // console.log("Value: ", listItems);
     // fetch('buyerprofile?type='+ listItems,{
     //   method: 'get',
@@ -24,14 +24,11 @@ document.getElementById("type").addEventListener("change", function(){
     // })
   })
 
-  Array.from(trash).forEach(function(element) {
+  Array.from(claimed).forEach(function(element) {
         element.addEventListener('click', function(){
           let _id = this.getAttribute("data-bidId")
-          let status = this.getAttribute("data-status")
           let farmerEmail = this.getAttribute("data-farmeremail")
-          let offer = this.getAttribute("data-offer")
-          let type = this.getAttribute("data-type")
-          console.log("hittin it", status, farmerEmail, offer, type);
+          console.log("hittin it", _id, farmerEmail);
           fetch('clearBids', {
             method: 'delete',
             headers: {
@@ -41,7 +38,7 @@ document.getElementById("type").addEventListener("change", function(){
               '_id': _id
             })
           }).then(function (response) {
-            var local = "http://" + window.location.host + "/thanks?farmer=" + farmerEmail
+            var local = "http://" + window.location.host + "/thanks?farmerEmail=" + farmerEmail
             console.log(local)
             window.location.href = local
             // window.location.href = "/buyerprofile?type=" +

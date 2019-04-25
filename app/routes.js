@@ -11,45 +11,68 @@ module.exports = function(app, passport, db, ObjectId) {
   app.get('/profile', isLoggedIn, function(req, res) {
     db.collection('farmstndusers').findOne({"email": req.user.local.email}, (err, farmstnduser)=> {
       if (err) return console.log(err)
-      db.collection('produce').find().toArray((err, result) => {
-        if (err) return console.log(err)
-        db.collection('bids').find().toArray((err, bids) => {
+      if (farmstnduser.usertype == "farmer"){
+        var produceQuery = { "email": req.user.local.email }
+        db.collection('produce').find(produceQuery).toArray((err, produce)=> {
           if (err) return console.log(err)
-
-          // ...................content inner
-
-          if (farmstnduser.usertype === "farmer"){
+          var bidsQuery = { "farmerEmail": req.user.local.email }
+          db.collection('bids').find(bidsQuery).toArray( (err, bids)=> {
+            if (err) return console.log(err)
             //mongo find for all my produce
             //console.log it
             //send it to the farmprofile.ejs
             //grab code from messages and change it to produce and send results (produceitems) then do procduceitems:
             //
-            res.redirect("/farmerprofile")
-            // res.render('farmerprofile.ejs', {
-            //   user : req.user,
-            //   rating: farmstnduser.rating,
-            //   produce: result,
-            //   bids: bids
-          }else{
-            res.redirect("/buyerprofile")
-            // res.render('buyerprofile.ejs', {
-            //   user : req.user,
-            //   rating: farmstnduser.rating,
-            //   bids: bids,
-            //   produce: result,
-            //   email: req.user.email,
-            // _id: ObjectId("5cb2982f63928484c291751c")
-          }
-        }
-
-        // ...................content inner
-
-      )
-
+            for(var i=0; i<bids.length; i++){
+              var produceItem = produce.find(function(element) {
+                console.log("Farmer Profile Match", element._id.toString(), bids[i].produceId);
+                return element._id.toString() === bids[i].produceId;
+              });
+              bids[i].produceItem = produceItem
+            }
+            res.render('farmerprofile.ejs', {
+              user : req.user,
+              produce: produce,
+              bids: bids
+            })
+          })
+        })
+      }else{
+        db.collection('produce').find().toArray((err, produce)=> {
+          if (err) return console.log(err)
+          var bidsQuery = { email: req.user.local.email }
+          db.collection('bids').find(bidsQuery).toArray( (err, bids)=> {
+            if (err) return console.log(err)
+            //mongo find for all my produce
+            //console.log it
+            //send it to the farmprofile.ejs
+            //grab code from messages and change it to produce and send results (produceitems) then do procduceitems:
+            //
+            for(var i=0; i<bids.length; i++){
+              var produceItem = produce.find(function(element) {
+                console.log("Farmer Profile Match", element._id.toString(), bids[i].produceId);
+                return element._id.toString() === bids[i].produceId;
+              });
+              bids[i].produceItem = produceItem
+            }
+            let type = null
+            if ('type' in req.query) {
+              type = req.query.type
+            }
+            produce = produce.filter(function(element) {
+              return element.type === type
+            })
+            res.render('buyerprofile.ejs', {
+              user : req.user,
+              produce: produce,
+              bids: bids,
+              type: type
+            })
+          })
+        })
+      }
     })
-
   })
-});
 
 // LOGOUT ==============================
 app.get('/logout', function(req, res) {
@@ -58,12 +81,12 @@ app.get('/logout', function(req, res) {
 });
 
 // Updating the list of types
-app.get('/buyerprofile', (req, res) => {
+app.get('/buyerprofile', isLoggedIn, (req, res) => {
   //  console.log(req.query.type);
   //console.log("look here");
   db.collection('produce').find().toArray( (err, produce) => {
     if (err) return console.log("there is an erreor: ", err)
-    console.log(produce);
+
     db.collection('bids').find({email: req.user.local.email}).toArray( (err, bids) => {
       if (err) return console.log("there is an erreor: ", err)
       console.log(bids);
@@ -72,6 +95,7 @@ app.get('/buyerprofile', (req, res) => {
         type: req.query.type,
         bids: bids,
         user : req.user
+
       })
     })
   })
@@ -85,23 +109,21 @@ app.get('/buyerprofile', (req, res) => {
 //
 //   })
 // })
-app.get('/farmerprofile', (req, res) => {
-  console.log(req.user.local.email);
+app.get('/farmerprofile', isLoggedIn, (req, res) => {
+
   db.collection('farmstndusers').findOne({"email": req.user.local.email}, (err, farmstnduser)=>{
     db.collection('produce').find({"email": req.user.local.email}).toArray( (err, produce) => {
       if (err) return console.log("there is an erro r: ", err)
       db.collection('bids').find({"farmerEmail": req.user.local.email}).toArray( (err, bids) => {
         if (err) return console.log("there is an erro r: ", err)
-        console.log("This is a test");
-        for(var i=0; i<bids.length; i++){
 
+        for(var i=0; i<bids.length; i++){
           var produceItem = produce.find(function(element) {
             console.log("Farmer Profile Match", element._id.toString(), bids[i].produceId);
             return element._id.toString() === bids[i].produceId;
           });
           bids[i].produceItem = produceItem
         }
-        console.log("Matched Bids", bids);
         res.render('farmerprofile.ejs', {
           user : req.user,
           // rating: farmstnduser.rating,
@@ -128,15 +150,13 @@ app.post('/submitBid', (req, res) => {
     status:"Pending"
   }, (err, result) => {
     if (err) return console.log(err)
-    console.log("trial")
-
-    res.redirect('/buyerprofile')
+    res.redirect('back')
   })
 })
 
 app.put('/setStatus', (req, res) => {
   const bidObject = { status: req.body.status }
-  console.log(req.body.counterPrice);
+
   if (req.body.counterPrice){
     bidObject.offerAmt = req.body.counterPrice
   }
@@ -144,18 +164,30 @@ app.put('/setStatus', (req, res) => {
     $set: bidObject
   }, (err, result) => {
     if (err) return console.log(err)
-    console.log(result)
+
     res.send(result)
   })
 })
 
+app.post('/person', (req, res) => {
+      db.collection('farmstndusers').save({
+        first: req.body.first,
+        last: req.body.last,
+        email: req.body.email,
+        usertype: req.body.usertype,
+      }, (err, result) => {
+        if (err) return console.log(err)
+        console.log('saved to database')
+        res.redirect('/profile')
+      })
+    })
 
 app.post('/farmerprofile', (req, res) => {
   db.collection('produce').save({type: req.body.proSelect, suggestedPrice: req.body.price, quantity: req.body.qty, email: req.body.email}, (err, result) => {
     if (err) return console.log(err)
-    console.log("trial")
 
-    res.redirect('/farmerprofile')
+
+    res.redirect('back')
   })
 })
 
@@ -165,15 +197,18 @@ app.post('/buyerprofile', (req, res) => {
     if (err) return console.log(err)
     // db.collection('inventory').find({type: 'cassava'
     // if ()
-    console.log('saved to database')
-    res.redirect('/buyerprofile')
+
+    res.redirect('back')
   })
   // })
 })
 
-app.get('/thanks', (req, res) => {
+app.get('/thanks', isLoggedIn, (req, res) => {
+  if (!('farmerEmail' in req.query)) {
+    return res.redirect('back')
+  }
   res.render('thanks.ejs', {
-    farmerEmail: req.query.farmer
+    farmerEmail: req.query.farmerEmail
   })
 })
 
@@ -184,6 +219,7 @@ app.delete('/clearBids', (req, res) => {
     res.send('yooo')
   })
 })
+
 app.put('/disturbed', (req, res) => {
   db.collection('messages')
   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
@@ -223,9 +259,17 @@ app.get('/signup', function(req, res) {
   res.render('signup.ejs', { message: req.flash('signupMessage') });
 });
 
+app.get('/user', isLoggedIn, function(req, res) {
+  console.log("This is the response:" + res);
+        res.render('user.ejs', {
+            user : req.user,
+            data: res
+          });
+    });
+
 // process the signup form
 app.post('/signup', passport.authenticate('local-signup', {
-  successRedirect : '/profile', // redirect to the secure profile section
+  successRedirect : '/user', // redirect to the secure profile section
   failureRedirect : '/signup', // redirect back to the signup page if there is an error
   failureFlash : true // allow flash messages
 }));

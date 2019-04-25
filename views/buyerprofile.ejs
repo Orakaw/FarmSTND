@@ -5,13 +5,14 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Concert+One|Fredoka+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins" rel="stylesheet">
   <link rel="stylesheet" href="buyer.css">
 </head>
 <body>
   <header>
     <section class="topPiece">
       <span> <img src="imgs/grow.png" alt=""> </span>
-      <!-- <span>Fresher Produce. One Click at a TIME.</span> -->
+
     </section>
     <section class="secondPiece">
 
@@ -20,26 +21,21 @@
     </section>
   </header>
 
-  <div class="container">
+
+  <section>
+    <h2>Welcome to FarmSTND!- Buyer Profile</h2>
+  </section>
 
 
 
-    <div class="row">
-
-      <!-- LOCAL INFORMATION -->
-      <div class="col-sm-6">
-
-      </div>
 
 
-      <section>
-
-        <section>
-          <img src="" alt="">
-        </section>
-        <% console.log(produce) %>
-        <form class="" action="/buyerprofile" method="post">
-          <select id="type" class="" name="proOption">
+  <section>
+    <section class="leftSide">
+      <section class="selectPlusImg">
+        <span>Step 1: Select Your Produce</span>
+        <form class="selection" action="/buyerprofile" method="post">
+          <select id="type" class="selector" name="proOption">
 
 
 
@@ -58,76 +54,88 @@
             <option value="Carrot">Carrot</option>
             <option value="Okra">Okra</option>
             <option value="Pepper">Pepper</option>
-
-
-
           </select>
-
-
         </form>
+        <% if(type) { %>
+          <section class="produceImg"><img src="/imgs/<%= type %>.png" alt=""></section>
+          <% } %>
+        </section>
+    </section>
+
+      <section class="rightSide">
         <section class="farmerListing">
-          <h3>Farmer Listing</h3>
-
-          <ul class="messages">
-            <%
-            var selected = produce.filter(el => {
-              return el.type === type
-            })
-            %>
-            <% for(var i=0; i< selected.length; i++) {%>
-
-
-              <li>
+          <p>Step 2: View Produce From Farmers And Make An Offer</p>
+          <h3>Farmers Listing</h3>
+          <table style="width:86%">
+            <tr>
+              <th>Item</th>
+              <th>Quanity</th>
+              <th>Farmer Email</th>
+              <th>Offer</th>
+              <th>Suggested Price</th>
+              <th>Bid</th>
+            </tr>
+            <% for(let i=0; i< produce.length; i++) {%>
+              <tr>
                 <form class="" action="submitBid" method="post">
-                  <span><%= selected[i].type %></span>
-                  <span><%= selected[i].quantity %></span>
-                  <span><%= selected[i].email %></span>
-                  <input placeholder="Offer" type="text" name="offerAmt" value="">
-                  <input type="hidden" name="produceId" value="<%= selected[i]._id %>" >
-                  <input type="hidden" name="farmerEmail" value="<%= selected[i].email %>">
-                  <span><%= selected[i].suggestedPrice %></span>
-                  <input type="submit" name="" value="Bid">
+                  <td><%= produce[i].type %></td>
+                  <td><%= produce[i].quantity %></td>
+                  <td><%= produce[i].email %></td>
+                  <td>
+                    <input placeholder="Offer" type="text" name="offerAmt" value="">
+                    <input type="hidden" name="produceId" value="<%= produce[i]._id %>" >
+                    <input type="hidden" name="farmerEmail" value="<%= produce[i].email %>">
+                  </td>
+                  <td><%= produce[i].suggestedPrice %></td>
+                  <td><input type="submit" name="" value="Bid"></td>
                 </form>
+              </tr>
+              <% } %>
+            </table>
+          </section>
+          <% if(bids.length > 0) { %>
+            <section class="bidHolder">
+              <p>Step 3: View Your Bids And Status Of Each Offer</p>
+              <p>Step 4: Once Price Is Agreed Upon Claim Your Produce</p>
+              <h3>Bid Status</h3>
+              <section class="bidBackground">
+                <table style="width:86%">
+                  <tr>
+                    <th>Item</th>
+                    <th>Offer</th>
+                    <th>Farmer Email</th>
+                    <th>Status</th>
+                    <th>Claim</th>
+                  </tr>
+                  <% for(let i=0; i< bids.length; i++) {%>
+                  <tr>
 
-              </li>
+                    <td><%= bids[i].produceItem.type %></td>
+                    <td><%= bids[i].offerAmt %></td>
+                    <td><%= bids[i].farmerEmail %></td>
+                    <% if(bids[i].status === "Accept" || bids[i].status=== "Counter") { %>
+                      <td><%= bids[i].status %></td>
+                      <td><button data-bidId="<%= bids[i]._id %>" data-farmerEmail="<%= bids[i].farmerEmail %>" class="claimIt" type="button" name="button">Claim</button></td>
+                      <% } else { %>
+                        <td>Pending</td>
+                        <% } %>
+
+                      </tr>
+                      <% } %>
+                    </table>
+                  </section>
+
+                </section>
+        </section>
 
               <% } %>
-            </ul>
-          </section>
-
 
 
 
         </section>
-        <% if(bids.length > 0) { %>
-          <section class="bidHolder">
-            <ul>
-              <% for(var i=0; i< bids.length; i++) {%>
-                <%
-                var item = produce.find(el => {
-                  console.log(el)
-                  return el._id + "" === bids[i].produceId
-                })
-                  console.log(item)
-                %>
-                <li class="bids">
 
-                  <span>Offer: <%= bids[i].offerAmt %></span>
-                  <span>Farmer: <%= bids[i].farmerEmail %></span>
-                  <% if(bids[i].status === "Accept" || bids[i].status=== "Counter") { %>
-                    <span>Status: <%= bids[i].status %></span>
-                    <button data-bidId="<%= bids[i]._id %>" data-farmeremail="<%= bids[i].farmerEmail %>" data-offer="<%= bids[i].offerAmt %>" data-status="<%= bids[i].status %>" class="claimIt" type="button" name="button">Claim</button>
-                    <% } else { %>
-                      <span>Status: Pending</span>
-                      <% } %>
-                    </li>
 
-                    <% } %>
-                  </ul>
-                </section>
-                <% } %>
+            <script src="main.js"></script>
 
-                <script src="main.js"></script>
-
-              </body>
-              </html>
+          </body>
+          </html>

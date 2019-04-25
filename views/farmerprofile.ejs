@@ -1,111 +1,123 @@
 <!doctype html>
 <html>
-  <head>
-    <title>FarmSTND</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="farmer.css">
-    <link href="https://fonts.googleapis.com/css?family=Armata|Concert+One|Fredoka+One" rel="stylesheet">
-
-  </head>
-  <body>
-    <header>
-      <section class="topPiece">
-        <span> <img src="imgs/grow.png" alt=""> </span>
-
-      <section class="secondPiece">
-
-        <h1>FarmSTND</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-      </section>
-    </header>
-
-    <section>
-
-
-
-      <span><%= user.local.email %></span>
-      <form class="pickOpt" action="/farmerprofile" method="post">
-        <label for=""><h2>List New Items</h2>
-          <select class="" name="proSelect">
-            <option value="Cassava">Cassava</option>
-            <option value="Yam">Yam</option>
-            <option value="Ginger">Ginger</option>
-            <option value="Kolanut">Kolanut</option>
-            <option value="Groundnut">Groundnut</option>
-            <option value="Banana">Banana</option>
-            <option value="Mango">Mango</option>
-            <option value="Melon">Melon</option>
-            <option value="Corn">Corn</option>
-            <option value="Tomato">Tomato</option>
-            <option value="Avocado">Avocado</option>
-            <option value="Carrot">Carrot</option>
-            <option value="Okra">Okra</option>
-            <option value="Pepper">Pepper</option>
-          </select>
-
-          <input placeholder="suggested price" type="text" name="price" value="">
-          <input placeholder="Qty" type="text" name="qty" value="">
-          <input hidden type="text" name="email" value="<%= user.local.email %>">
-
-
-        </label>
-        <button type="submit" name="button">Submit</button>
-
-      </form>
+<head>
+  <title>FarmSTND</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="farmer.css">
+  <link href="https://fonts.googleapis.com/css?family=Armata|Concert+One|Fredoka+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <section class="topPiece">
+      <span> <img src="imgs/grow.png" alt=""> </span>
     </section>
+    <section class="secondPiece">
 
+      <h1>FarmSTND</h1>
+      <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </section>
+  </header>
+
+  <section class="holdList">
+    <h2>Welcome to FarmSTND!- Farmer Profile</h2>
+    <form class="pickOpt" action="/farmerprofile" method="post">
+      <p>Step 1: List Your Produce</p>
+      <label for=""><h2=3>List New Items</h3>
+        <select class="" name="proSelect">
+          <option value="Cassava">Cassava</option>
+          <option value="Yam">Yam</option>
+          <option value="Ginger">Ginger</option>
+          <option value="Kolanut">Kolanut</option>
+          <option value="Groundnut">Groundnut</option>
+          <option value="Banana">Banana</option>
+          <option value="Mango">Mango</option>
+          <option value="Melon">Melon</option>
+          <option value="Corn">Corn</option>
+          <option value="Tomato">Tomato</option>
+          <option value="Avocado">Avocado</option>
+          <option value="Carrot">Carrot</option>
+          <option value="Okra">Okra</option>
+          <option value="Pepper">Pepper</option>
+        </select>
+
+        <input placeholder="Suggested price" type="text" name="price" value="">
+        <input placeholder="Qty" type="text" name="qty" value="">
+        <input hidden type="text" name="email" value="<%= user.local.email %>">
+
+
+      </label>
+      <button type="submit" name="button">Submit</button>
+
+    </form>
+  </section>
+  <section class="leftSide">
     <section class="itemsList">
-      <h3>items listed</h3>
-      <ul class="messages">
-        <% console.log(produce) %>
-      <% for(var i=0; i<produce.length; i++) {%>
-        <% if( user.local.email ){ %>
-        <li class="message">
-          <span><%= produce[i].type %></span>
+      <p>Step 2: Browse Your Items Listed</p>
+      <h3>Items Listed</h3>
+      <table style="width:80%">
+        <tr>
+          <th>Item</th>
+          <th>Suggested Price</th>
+          <th>Quantity</th>
+        </tr>
+        <% for(var i=0; i<produce.length; i++) {%>
+          <% if( user.local.email ){ %>
+            <tr>
+              <td><%= produce[i].type %></td>
+              <td><%= produce[i].suggestedPrice %></td>
+              <td><%= produce[i].quantity %></td>
+            </tr>
+            <% } %>
+            <% } %>
 
-          <span><%= produce[i].suggestedPrice %></span>
-          <span><%= produce[i].quantity %></span>
-        </li>
-        <% } %>
-      <% } %>
-      </ul>
+          </table>
+        </section>
+      </section>
+
+      <section class="rightSide">
+        <section class="bidsList">
+          <p>Step 3: Accept, Reject, or Counter a Buyers Offer</p>
+          <h3>Bids Listed</h3>
+          <table style="width:100%">
+            <tr>
+              <th>Price</th>
+              <th>Item</th>
+              <th>Status</th>
+            </tr>
+            <% for(var i=0; i<bids.length; i++) {%>
+              <tr id="<%= bids[i]._id %>">
+                <td><%= bids[i].offerAmt %></td>
+                <td><%= bids[i].produceItem.type %></td>
+                <% if(bids[i].status === "Accept"){ %>
+                  <td>Accepted</td>
+                  <% }else if(bids[i].status === "Reject"){%>
+                    <td>Rejected</td>
+
+                    <% }else if(bids[i].status === "Counter"){%>
+                      <td>Countered</td>
+
+                      <% }else{ %>
+
+                        <td><button class="setStatus" type="button" name="button">Accept</button>
+                          <button class="setStatus" type="button" name="button">Reject</button>
+                          <button class="setStatus" type="button "name="button">Counter</button>
+                          <input type="text" name="" value=""></td>
+
+                          <% } %>
+                        </tr>
+                        <% } %>
+                        <tr>
+
+                        </table>
+                      </section>
+                    </section>
 
 
-    </section>
-    <section class="bidsList">
-      <h3>bids listed</h3>
-      <ul class="messages">
-        <% console.log(produce) %>
-      <% for(var i=0; i<bids.length; i++) {%>
-        <li id="<%= bids[i]._id %>" class="message">
-          <span><%= bids[i].offerAmt %></span>
-          
-          <% if(bids[i].status === "Accept"){ %>
-            <span>Accepted</span>
 
-            <% }else if(bids[i].status === "Reject"){%>
-            <span>Rejected</span>
+                    <script src="farmer.js"></script>
 
-            <% }else if(bids[i].status === "Counter"){%>
-            <span>Countered</span>
-
-            <% }else{ %>
-
-          <button class="setStatus" type="button" name="button">Accept</button>
-          <button class="setStatus" type="button" name="button">Reject</button>
-          <button class="setStatus" type="button "name="button">Counter</button>
-          <input type="text" name="" value="">
-
-        <% } %>
-        </li>
-      <% } %>
-      </ul>
-
-
-    </section>
-
-    <script src="farmer.js"></script>
-
-  </body>
-</html>
+                  </body>
+                  </html>
